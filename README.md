@@ -3,7 +3,7 @@ The term plagiarism can be defined as “the practice of taking someone else’s
 
 HOW TO TEST:
 
--Pull all of the files from the GitHub, and place them all in the same folder.
--When prompted to enter the directory, simply type '.' (without the quotes) and press enter.
--The program will then prompt you to select which metric to use, enter you choice and press enter.
--The program will calculate and output
+-Pull all of the files from the GitHub, and place them all in the same folder. \n
+-When prompted to enter the directory, simply type '.' (without the quotes) and press enter. \n
+-The program will then prompt you to select which metric to use, enter you choice and press enter. \n
+-The program will calculate and output the similarity percentages and notify the user if any results are worth investigating.
