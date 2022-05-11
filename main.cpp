@@ -381,7 +381,7 @@ double simpleComparison(string str1, string str2)
 {
     double points = 0;
     int i = 0;
-    int longer = 0, shorter;
+    int longer, shorter;
     int len1 = str1.length();
     int len2 = str2.length();
 
@@ -591,11 +591,11 @@ double halsteadsComparison(string str1, string str2)
         };
 }
 
-string inputFileName(string fileName) //initializing our method that takes in strings
+string inputFileName(string fileName, string pathName) //initializing our method that takes in strings
 {
     ifstream file; // initializing an Input stream class to operate on files.
     int length;
-    file.open(fileName); //opening the file that is given
+    file.open(pathName + "/" + fileName); //opening the file that is given
     file.seekg(0, ios::end); //Sets the position of the next character to be extracted from the input stream.
     length = file.tellg(); //returns the current “get” position of the pointer in the stream and then is set as length1
     file.seekg(0, ios::beg);
@@ -634,60 +634,63 @@ int main()
     char* path;
     bool validPath = false;
     int i, s;
-    while(true)
+    while(!validPath)
     {
-        while(!validPath)
+        cout << "Enter the file path for the desired directory: ";
+        cin >> p;
+        cout << endl;
+        path = &p[0];
+
+        dr = opendir(path);
+        if (dr)
         {
-            cout << "Enter the file path for the desired directory: ";
-            cin >> p;
-            cout << endl;
-            path = &p[0];
-
-            dr = opendir(path);
-            if (dr)
+            validPath = true;
+            while ((en = readdir(dr)) != NULL)
             {
-                validPath = true;
-                while ((en = readdir(dr)) != NULL)
-                {
-                    files.push_back(en->d_name);
-                }
-
-            }
-            else
-            {
-                cout << "Invalid file path. Try again." << endl;
-                separator();
+                files.push_back(en->d_name);
             }
 
-            i = 0;
-            s = files.size();
-
+        }
+        else
+        {
+            cout << "Invalid file path. Try again." << endl;
             separator();
+        }
 
-            while(i < s && validPath)
-            {
-                if(files.at(i).find(".cpp") != string::npos)
-                {
-                    cout << files.at(i) << "    ";
-                    cppfiles.push_back(files.at(i));
-                }
-                i++;
-            }
-            cout << endl;
-            if(cppfiles.size() == 0 && validPath)
-            {
-                validPath = false;
-                cout << endl << "Empty Directory. Please choose another." << endl;
-            }
-         }
-        closedir(dr); //close all directory
+        i = 0;
+        s = files.size();
 
         separator();
 
-        int totalFiles = cppfiles.size();
-        vector<int> combos = combinations(totalFiles, 2);
+        while(i < s && validPath)
+        {
+            if(files.at(i).find(".cpp") != string::npos)
+            {
+                cout << files.at(i) << "    ";
+                cppfiles.push_back(files.at(i));
+            }
+            i++;
+        }
+        cout << endl;
+        if(cppfiles.size() == 0 && validPath)
+        {
+            validPath = false;
+            cout << endl << "Empty Directory. Please choose another." << endl;
+        }
+     }
+    closedir(dr); //close all directory
+    int totalFiles = cppfiles.size();
+    vector<int> combos = combinations(totalFiles, 2);
+    char choice;
+    string str1;
+    string str2;
+    int a, b;
+    double sim;
 
-        char choice;
+    while(true)
+    {
+        separator();
+
         bool invalid = true;
 
         while(invalid)
@@ -711,16 +714,12 @@ int main()
                 separator();
             }
         }
-
-        string str1;
-        string str2;
-        int a = 0, b = 1;
-        double sim;
-
+        a = 0;
+        b = 1;
         while(b < combos.size())
         {
-            str1 = inputFileName(cppfiles.at(combos.at(a)));
-            str2 = inputFileName(cppfiles.at(combos.at(b)));
+            str1 = inputFileName(cppfiles.at(combos.at(a)), path);
+            str2 = inputFileName(cppfiles.at(combos.at(b)), path);
 
             if(choice == '1')
             {

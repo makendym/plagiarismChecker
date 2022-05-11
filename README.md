@@ -5,7 +5,7 @@ HOW TO TEST:
 
 -Pull all of the files from the GitHub, and place them all in the same folder.
 
--When prompted to enter the directory, simply type '.' (without the quotes) and press enter.
+-When prompted to enter the directory, type './testDirectory' (without the quotes) and press enter.
 
 -The program will then prompt you to select which metric to use, enter you choice and press enter.
 
